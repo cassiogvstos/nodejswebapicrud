@@ -3,7 +3,7 @@
  *vinculo com mongoose para ORM
  */
 
- var mongoose = require('mongoose');
+ var mongoose = require('mongoose');//mongoose e o ODM
  var Schema = mongoose.Schema;
 
  var produtoSchema = new Schema({
