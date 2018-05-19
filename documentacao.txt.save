@@ -1,0 +1,9 @@
+Esta aplicação tem como focu o aprendizado e desenvolvimento de uma API utilizando como linguagem de programação o nodejs.
+
+Os softwares utilizados para o desenvolvimento tanto da API como posteriormente do app serão:
+
+Nodejs -> Versão 8.11.1
+NPM    -> Versão 6.0.0
+Ionic  -> Versão 3.20.0
+Mongodb-> Versão 3.6.4
+

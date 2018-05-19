@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Produto = require('./app/models/product');
+var Usuario = require('./app/models/user');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)
 mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
@@ -26,11 +27,128 @@ router.use(function(req,res,next){
 	next();
 });
 
+/*+----------------------------------------+
+  |				ROTA PADRÃO 			   |
+  +----------------------------------------+*/
 router.get('/', function(req, res){
 	res.json({'message': 'OK, rota principal funcionando'});
 });
+/*+------------------------------------------------+
+  |				Rota de Usuario 				   |
+  |			  GetById de Usuário				   |
+  +------------------------------------------------+*/
+router.route('/usuarios/:userId')
+//recebe o usuario pela url
+	.get(function(req, res){
+		const id = req.params.userId;
+//faz a busca no banco com o id cindo da url
+	Usuario.findById(id, function(err, user){
+		if (err) {
+			res.status(500).json({
+				message:"Erro ao tentar encontrar usuário, ID mal formado"
+			});
+		}
+		else if (user == null) {
+			res.status(400).json({
+				message:"Usuário não encontrado"
+			});
+		}
+		else{
+			res.status(200).json({
+				message:"Okay usuário encontrado",
+				user: user
+			});
+		}
+	});
+})
+/*+------------------------------------------------+
+  |				Rota de Usuario 				   |
+  |			Atualização OR Update - PUT, 	   	   |
+  +------------------------------------------------+*/
+//ex:localhost:8000/api/usuarios/userId
+.put(function(req, res){
+	const id = req.params.userId;
+	Usuario.findById(id, function(err, usuario){
+		if(err){
+			res.status(500).json({
+				message:"Id mal formado, erro ao tentar encontrar usuário"
+			});
+		}
+		else if (usuario == null) {
+			res.status(400).json({
+				message:"Usuário não encontrado"
+			});
+		}
+		else{
+			usuario.nome = req.body.nome;
+			usuario.sobrenome = req.body.sobrenome;
+			usuario.email = req.body.email;
 
-//GetById
+			usuario.save(function(error){
+				if (error)
+					res.send("Erro ao tentar atualizar o usuário " + error);	
+
+				res.status(200).json({
+					message:"Usuário atualizado com sucesso"
+				});
+			});			
+		}
+	});
+})
+/*+------------------------------------------------+
+  |				Rota de Usuario 				   |
+  |			Remover OR delete - DELETE,  	   	   |
+  +------------------------------------------------+*/
+//ex:localhost:8000/api/usuarios/userId
+.delete(function(req, res){
+	Usuario.findByIdAndRemove(req.params.userId, (err, user) => {
+		if (err) return res.status(500).send(err);
+
+		const response = {
+			message:"Usuário removido com sucesso",
+			id: usuario.id
+		};
+		return res.status(200).send(response);
+	});
+});
+/*+------------------------------------------------+
+  |				Rota de Usuario 				   |
+  |		cria uma rota que responda a um POST   	   |
+  +------------------------------------------------+*/
+router.route('/usuarios')
+//		POST para usuario (CREATE)	  
+	.post(function(req,res){
+		var usuario = new Usuario();
+		usuario.nome = req.body.nome;
+		usuario.sobrenome = req.body.sobrenome;
+		usuario.email = req.body.email;
+
+		usuario.save(function(error){
+			if (error)
+				res.send("Erro ao tentar salvar um novo usuário " + error);
+
+			res.status(201).json({"message":"Usuário inserido com sucesso"});
+		});
+	})
+/*+---------------------------------------------------+
+  |		GET retornará todos os usuários cadastrados	  |
+  +---------------------------------------------------+*/
+	.get(function(req, res){
+
+		Usuario.find(function(err, users){
+			if(err)
+				res.send(err);
+
+			res.status(200).json({
+				message:"Return all users",
+				todosProdutos:users
+			});
+		});
+	});
+/*+--------------------------------------------+
+  |				Rota de Produto 			   |
+  |			  GetById de Produto			   |
+  +--------------------------------------------+*/
 router.route('/produtos/:productId')
 	.get(function(req, res){
 		const id = req.params.productId;
@@ -54,9 +172,11 @@ router.route('/produtos/:productId')
 		}
 	});
 })
-
-
-//Atualização OR Update - PUT, ex:localhost:8000/api/produtos/productId
+/*+------------------------------------------------+
+  |				Rota de Produto 				   |
+  |			Atualização OR Update - PUT, 	   	   |
+  +------------------------------------------------+*/
+//ex:localhost:8000/api/produtos/productId
 .put(function(req, res){
 	const id = req.params.productId;
 	Produto.findById(id, function(err, produto){
@@ -86,9 +206,11 @@ router.route('/produtos/:productId')
 		}
 	});
 })
-
-
-//Remover OR delete - DELETE, ex:localhost:8000/api/produtos/productId
+/*+------------------------------------------------+
+  |				Rota de Produto 				   |
+  |			Remover OR delete - DELETE,  	   	   |
+  +------------------------------------------------+*/
+//ex:localhost:8000/api/produtos/productId
 .delete(function(req, res){
 	Produto.findByIdAndRemove(req.params.productId, (err, produto) => {
 		if (err) return res.status(500).send(err);
@@ -100,9 +222,10 @@ router.route('/produtos/:productId')
 		return res.status(200).send(response);
 	});
 });
-
-
-//cria uma rota que responda a um POST
+/*+------------------------------------------------+
+  |				Rota de Usuario 				   |
+  |		cria uma rota que responda a um POST   	   |
+  +------------------------------------------------+*/
 router.route('/produtos')
 	//POST para produto (CREATE)
 	.post(function(req,res){
@@ -120,7 +243,6 @@ router.route('/produtos')
 		});
 	})
 
-
 	.get(function(req, res){
 
 		Produto.find(function(err, prods){
@@ -133,11 +255,11 @@ router.route('/produtos')
 			});
 		});
 	});
-
-//Criando vinculo da app com o motor de rotas, tudo que chegar vincula ao express
-//Definindo uma rotapadrão para as minhas apis
+/*+---------------------------------------------------------------------------------------+
+  |		Criando vinculo da app com o motor de rotas, tudo que chegar vincula ao express	  | 
+  |		Definindo uma rotapadrão para as minhas apis									  |
+  +---------------------------------------------------------------------------------------+*/
 app.use('/api', router);
-
-
+//lsitem serve para escutar a porta
 app.listen(port);
 console.log("API up and running! on port " + port);
