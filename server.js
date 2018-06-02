@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Produto = require('./app/models/product');
 var Usuario = require('./app/models/user');
+var Service = require('/app/models/service');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)
 mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
@@ -241,7 +242,7 @@ router.route('/produtos/:productId')
 	});
 });
 /*+------------------------------------------------+
-  |				Rota de Usuario 				   |
+  |				Rota de Produtos 				   |
   |		cria uma rota que responda a um POST   	   |
   +------------------------------------------------+*/
 router.route('/produtos')

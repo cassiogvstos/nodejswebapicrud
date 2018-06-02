@@ -1,15 +1,16 @@
 /**
- *Arquivo de model para Produto
+ *Arquivo de model para Servicos
  *vinculo com mongoose para ORM
  */
 
  var mongoose = require('mongoose');//mongoose e o ODM
  var Schema = mongoose.Schema;
 
- var produtoSchema = new Schema({
+ var serviceSchema = new Schema({
  	nome: String,
  	preco: Number,
- 	descricao: String
+ 	descricao: String,
+ 	dataServico: Date,
  });
 
-module.exports = mongoose.model('Produto', produtoSchema);
+module.exports = mongoose.model('Service', serviceSchema);
