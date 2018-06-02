@@ -137,6 +137,8 @@ router.route('/usuarios')
 		var usuario = new Usuario();
 		usuario.nome = req.body.nome;
 		usuario.sobrenome = req.body.sobrenome;
+		usuario.apelido = req.body.apelido;
+		usuario.sexo = req.body.sexo;
 		usuario.email = req.body.email;
 
 		usuario.save(function(error){
@@ -248,6 +250,7 @@ router.route('/produtos')
 		var produto = new Produto();
 		produto.nome = req.body.nome;
 		produto.preco = req.body.preco;
+
 		produto.descricao = req.body.descricao;
 
 

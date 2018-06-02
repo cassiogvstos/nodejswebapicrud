@@ -9,6 +9,8 @@ var Schema = mongoose.Schema;
 var usuarioSchema = new Schema({
 	nome: String,
 	sobrenome: String,
+	apelido: String,
+	sexo: String,
 	email: String,
 	// foto: String pesquisar sobre gridFS
 });
