@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Servico = require('./app/models/service');
 var Usuario = require('./app/models/user');
+var Service = require('/app/models/service');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)
 mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
@@ -247,17 +248,30 @@ router.route('/servicos/:serviceId')
 
 
 /*+------------------------------------------------+
+<<<<<<< HEAD
   |				Rota de Servico 				   |
+=======
+  |				Rota de Produtos 				   |
+>>>>>>> c2bd4294f7c33c02915f9de1085ca738fb27894c
   |		cria uma rota que responda a um POST   	   |
   +------------------------------------------------+*/
 router.route('/servicos')
 //		POST para servico (CREATE)	  
 	.post(function(req,res){
+<<<<<<< HEAD
 		var servico = new Servico();
 		servico.tipo = req.body.tipo;
 		servico.descricao = req.body.descricao;
 		servico.preco = req.body.preco;
 		servico.dataServico = req.body.dataServico;
+=======
+		var produto = new Produto();
+		produto.nome = req.body.nome;
+		produto.preco = req.body.preco;
+
+		produto.descricao = req.body.descricao;
+
+>>>>>>> c2bd4294f7c33c02915f9de1085ca738fb27894c
 
 		servico.save(function(error){
 			if (error)
