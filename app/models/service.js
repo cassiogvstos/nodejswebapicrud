@@ -6,10 +6,12 @@
  var mongoose = require('mongoose');//mongoose e o ODM
  var Schema = mongoose.Schema;
 
- var produtoSchema = new Schema({
- 	nome: String,
+ var servicoSchema = new Schema({
+ 	tipo: String,
+ 	descricao: String,
  	preco: Number,
- 	descricao: String
+ 	dataServico: Date.parse('dd/mm/yyyy'),
+ 	
  });
 
-module.exports = mongoose.model('Produto', produtoSchema);
+module.exports = mongoose.model('Servico', servicoSchema);

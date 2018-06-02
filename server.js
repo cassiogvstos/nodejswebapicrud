@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Produto = require('./app/models/product');
+var Servico = require('./app/models/service');
 var Usuario = require('./app/models/user');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)
@@ -137,6 +137,8 @@ router.route('/usuarios')
 		var usuario = new Usuario();
 		usuario.nome = req.body.nome;
 		usuario.sobrenome = req.body.sobrenome;
+		usuario.apelido = req.body.apelido;
+		usuario.sexo = req.body.sexo;
 		usuario.email = req.body.email;
 
 		usuario.save(function(error){
@@ -157,120 +159,130 @@ router.route('/usuarios')
 
 			res.status(200).json({
 				message:"Return all users",
-				todosProdutos:users
+				todosServico:users
 			});
 		});
 	});
-/*+--------------------------------------------+
-  |				Rota de Produto 			   |
-  |			  GetById de Produto			   |
-  +--------------------------------------------+*/
-router.route('/produtos/:productId')
+/*+------------------------------------------------+
+  |				Rota de Servico 				   |
+  |			  GetById de Servico				   |
+  +------------------------------------------------+*/
+router.route('/servicos/:serviceId')
+//recebe o servico pela url
 	.get(function(req, res){
-		const id = req.params.productId;
-
-	Produto.findById(id, function(err, produto){
-		if(err){
+		const id = req.params.serviceId;
+//faz a busca no banco com o id cindo da url
+	Servico.findById(id, function(err, service){
+		if (err) {
 			res.status(500).json({
-				message:"Erro ao tentar encontrar produto, ID mal formado"
+				message:"Erro ao tentar encontrar servico, ID mal formado"
 			});
 		}
-		else if (produto == null) {
+		else if (service == null) {
 			res.status(400).json({
-				message:"Produto não encontrado"
+				message:"Serviço não encontrado"
 			});
 		}
 		else{
 			res.status(200).json({
-				message:"Okay produto encontrado",
-				produto: produto
+				message:"Okay serviço encontrado",
+				service: service
 			});
 		}
 	});
 })
+
 /*+------------------------------------------------+
-  |				Rota de Produto 				   |
+  |				Rota de Servico 				   |
   |			Atualização OR Update - PUT, 	   	   |
   +------------------------------------------------+*/
-//ex:localhost:8000/api/produtos/productId
+//ex:localhost:8000/api/servicos/serviceId
 .put(function(req, res){
-	const id = req.params.productId;
-	Produto.findById(id, function(err, produto){
+	const id = req.params.serviceId;
+	Servico.findById(id, function(err, servico){
 		if(err){
 			res.status(500).json({
-				message:"Id mal formado, erro ao tentar encontrar produto"
+				message:"Id mal formado, erro ao tentar encontrar serviço"
 			});
 		}
-		else if (produto == null) {
+		else if (servico == null) {
 			res.status(400).json({
-				message:"Produto não encontrado"
+				message:"Serviço não encontrado"
 			});
 		}
 		else{
-			produto.nome = req.body.nome;
-			produto.preco = req.body.preco;
-			produto.descricao = req.body.descricao;
+			servico.tipo = req.body.tipo;
+			servico.descricao = req.body.descricao;
+			servico.preco = req.body.preco;
+			servico.dataServico = req.body.dataServico;
 
-			produto.save(function(error){
-				if(error)
-					res.send("Erro au tentar atualizar o produto " + error);
+			servico.save(function(error){
+				if (error)
+					res.send("Erro ao tentar atualizar o serviço " + error);	
 
 				res.status(200).json({
-					message:"Produto atualizado com sucesso"
+					message:"Serviço atualizado com sucesso"
 				});
-			});
+			});			
 		}
 	});
 })
+
 /*+------------------------------------------------+
-  |				Rota de Produto 				   |
+  |				Rota de Serviço 				   |
   |			Remover OR delete - DELETE,  	   	   |
   +------------------------------------------------+*/
-//ex:localhost:8000/api/produtos/productId
+//ex:localhost:8000/api/servicos/serviceId
 .delete(function(req, res){
-	Produto.findByIdAndRemove(req.params.productId, (err, produto) => {
+	Servico.findByIdAndRemove(req.params.serviceId, (err, service) => {
 		if (err) return res.status(500).send(err);
 
 		const response = {
-			message:"Produto removido com sucesso",
-			id: produto.id
+			message:"Serviço removido com sucesso",
+			id: servico.id
 		};
 		return res.status(200).send(response);
 	});
 });
+
+
 /*+------------------------------------------------+
-  |				Rota de Usuario 				   |
+  |				Rota de Servico 				   |
   |		cria uma rota que responda a um POST   	   |
   +------------------------------------------------+*/
-router.route('/produtos')
-	//POST para produto (CREATE)
+router.route('/servicos')
+//		POST para servico (CREATE)	  
 	.post(function(req,res){
-		var produto = new Produto();
-		produto.nome = req.body.nome;
-		produto.preco = req.body.preco;
-		produto.descricao = req.body.descricao;
+		var servico = new Servico();
+		servico.tipo = req.body.tipo;
+		servico.descricao = req.body.descricao;
+		servico.preco = req.body.preco;
+		servico.dataServico = req.body.dataServico;
 
-
-		produto.save(function(error){
+		servico.save(function(error){
 			if (error)
-				res.send("Erro ao tentar salvar um novo produto " + error);
+				res.send("Erro ao tentar salvar um novo serviço " + error);
 
-			res.status(201).json({"message":"Produto inserido com sucesso"});
+			res.status(201).json({"message":"Serviço inserido com sucesso"});
 		});
 	})
 
+	/*+---------------------------------------------------+
+  |		GET retornará todos os serviço cadastrados	  |
+  +---------------------------------------------------+*/
 	.get(function(req, res){
 
-		Produto.find(function(err, prods){
+		Servico.find(function(err, services){
 			if(err)
 				res.send(err);
 
 			res.status(200).json({
-				message:"Return all products",
-				todosProdutos:prods
+				message:"Return all services",
+				todosServico:services
 			});
 		});
 	});
+
 /*+---------------------------------------------------------------------------------------+
   |		Criando vinculo da app com o motor de rotas, tudo que chegar vincula ao express	  | 
   |		Definindo uma rotapadrão para as minhas apis									  |
