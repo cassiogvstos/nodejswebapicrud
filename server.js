@@ -9,7 +9,7 @@ var Usuario = require('./app/models/user');
 /*Persistência Conexao com o banco (Cloud - MLAB)
 mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
 */
-mongoose.connect('mongodb://localhost/dbCrud');
+mongoose.connect('mongodb://localhost/bancoapinode');
 
 //configurar a app para usar o body-parser pega o que quero
 app.use(bodyParser.urlencoded({extended:true}));
