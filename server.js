@@ -6,9 +6,8 @@ var mongoose = require('mongoose');
 var Produto = require('./app/models/product');
 var Usuario = require('./app/models/user');
 
-/*Persistência Conexao com o banco (Cloud - MLAB)
-mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
-*/
+//Persistência Conexao com o banco (Cloud - MLAB)
+// mongoose.connect('mongodb://eucricardo:lk2y14BIS?@ds259109.mlab.com:59109/db_databaseapi1)
 mongoose.connect('mongodb://localhost/bancoapinode');
 
 //configurar a app para usar o body-parser pega o que quero
@@ -98,7 +97,11 @@ router.route('/usuarios/:userId')
 		else{
 			usuario.nome = req.body.nome;
 			usuario.sobrenome = req.body.sobrenome;
+			usuario.apelido = req.body.apelido;
+			usuario.sexo = req.body.sexo;
 			usuario.email = req.body.email;
+			usuario.datacriacao = req.body.datacriacao;
+
 
 			usuario.save(function(error){
 				if (error)
@@ -140,6 +143,7 @@ router.route('/usuarios')
 		usuario.apelido = req.body.apelido;
 		usuario.sexo = req.body.sexo;
 		usuario.email = req.body.email;
+		usuario.datacriacao = req.body.datacriacao;
 
 		usuario.save(function(error){
 			if (error)
@@ -250,9 +254,7 @@ router.route('/produtos')
 		var produto = new Produto();
 		produto.nome = req.body.nome;
 		produto.preco = req.body.preco;
-
 		produto.descricao = req.body.descricao;
-
 
 		produto.save(function(error){
 			if (error)

@@ -12,7 +12,7 @@ var usuarioSchema = new Schema({
 	apelido: String,
 	sexo: String,
 	email: String,
-	// foto: String pesquisar sobre gridFS
+	datacriacao: Date, //INSERIR a DATA como yyyy/mm/dd
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

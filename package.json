@@ -4,7 +4,8 @@
   "description": "Aplicacao API CRUD com Express e Nodejs",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
