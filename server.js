@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 //Definindo a porta onde o servidor vai responder
-var port = server.listen(process.env.port || 3000);
+var port = process.env.port || 3000;
 
 //Definindo as rotas
 var router = express.Router();//intercepta todas as rotas
