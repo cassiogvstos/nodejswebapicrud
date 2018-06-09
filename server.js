@@ -11,7 +11,7 @@ var Usuario = require('./app/models/user');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)*/
 
-mongoose.connect('mongodb://<acessaporra>:<123foicarai>@ds016718.mlab.com:16718/nodeapi');
+mongoose.connect('mongodb://<teste>:<teste123>@ds016718.mlab.com:16718/nodeapi');
 
 
 
