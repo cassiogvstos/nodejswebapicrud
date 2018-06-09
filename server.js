@@ -1,6 +1,6 @@
-moment.locale(en-my-settings, null {
+// moment.locale(en-my-settings, null {
 
-});
+// });
 //importar pacotes
 var express = require('express');
 var app = express();
