@@ -10,7 +10,8 @@ var Produto = require('./app/models/product');
 var Usuario = require('./app/models/user');
 
 /*Persistência Conexao com o banco (Cloud - MLAB)*/
-mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
+mongoose.connect('mongodb://cassiounivem:univem1234@ds016718.mlab.com:16718/nodeapi')
+
 
 //mongoose.connect('mongodb://localhost/bancoapinode');
 
