@@ -1,3 +1,6 @@
+moment.locale(en-my-settings, null {
+
+});
 //importar pacotes
 var express = require('express');
 var app = express();
@@ -6,8 +9,9 @@ var mongoose = require('mongoose');
 var Produto = require('./app/models/product');
 var Usuario = require('./app/models/user');
 
-//Persistência Conexao com o banco (Cloud - MLAB)
-// mongoose.connect('mongodb://eucricardo:lk2y14BIS?@ds259109.mlab.com:59109/db_databaseapi1)
+/*Persistência Conexao com o banco (Cloud - MLAB)
+mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
+*/
 mongoose.connect('mongodb://localhost/bancoapinode');
 
 //configurar a app para usar o body-parser pega o que quero
@@ -70,7 +74,7 @@ router.route('/usuarios/:userId')
 		}
 		else{
 			res.status(200).json({
-				message:"Okay usuário encontrado",
+				// message:"Okay usuário encontrado",
 				user: user
 			});
 		}
@@ -97,11 +101,7 @@ router.route('/usuarios/:userId')
 		else{
 			usuario.nome = req.body.nome;
 			usuario.sobrenome = req.body.sobrenome;
-			usuario.apelido = req.body.apelido;
-			usuario.sexo = req.body.sexo;
 			usuario.email = req.body.email;
-			usuario.datacriacao = req.body.datacriacao;
-
 
 			usuario.save(function(error){
 				if (error)
@@ -143,7 +143,7 @@ router.route('/usuarios')
 		usuario.apelido = req.body.apelido;
 		usuario.sexo = req.body.sexo;
 		usuario.email = req.body.email;
-		usuario.datacriacao = req.body.datacriacao;
+		usuario.agendamento = req.body.agendamento;
 
 		usuario.save(function(error){
 			if (error)
@@ -163,7 +163,7 @@ router.route('/usuarios')
 
 			res.status(200).json({
 				message:"Return all users",
-				todosProdutos:users
+				todosUsuarios:users
 			});
 		});
 	});
@@ -254,7 +254,9 @@ router.route('/produtos')
 		var produto = new Produto();
 		produto.nome = req.body.nome;
 		produto.preco = req.body.preco;
+
 		produto.descricao = req.body.descricao;
+
 
 		produto.save(function(error){
 			if (error)
