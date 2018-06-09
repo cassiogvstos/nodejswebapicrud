@@ -22,7 +22,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 //Definindo a porta onde o servidor vai responder
-var port = process.env.port || 3000;
+// var port = process.env.port || 3000;
+
+var port_number = server.listen(process.env.PORT || 3000);
+app.listen(port_number);
 
 //Definindo as rotas
 var router = express.Router();//intercepta todas as rotas
@@ -288,5 +291,5 @@ router.route('/produtos')
   +---------------------------------------------------------------------------------------+*/
 app.use('/api', router);
 //lsitem serve para escutar a porta
-app.listen(port);
+// app.listen(port);
 console.log("API up and running! on port " + port);
