@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 
 //Definindo a porta onde o servidor vai responder
 // var port = process.env.port || 3000;
-
 var port_number = server.listen(process.env.PORT || 3000);
 app.listen(port_number);
 
@@ -35,7 +34,7 @@ router.use(function(req,res,next){
 	/*OBSERVAÇÃO - Para que a API tenha autorização de acessar ou ser acessada por outro host precisa-se 
 		redefinir o Header*/
 	// Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Origin', 'https://apinode-salty-springs-19764.herokuapp.com/');
 
     // Request methods you wish to allow
@@ -292,4 +291,4 @@ router.route('/produtos')
 app.use('/api', router);
 //lsitem serve para escutar a porta
 // app.listen(port);
-console.log("API up and running! on port " + port);
+console.log("API up and running! on port " + port_number);
