@@ -289,5 +289,10 @@ router.route('/produtos')
   +---------------------------------------------------------------------------------------+*/
 app.use('/api', router);
 //lsitem serve para escutar a porta
-app.listen(port);
+app.listen(process.env.port || 3000, function(){
+	console.log("API up and running!",this.address().port, app.settings.env);
+
+});
+
+
 console.log("API up and running! on port " + port);
