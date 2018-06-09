@@ -9,10 +9,10 @@ var mongoose = require('mongoose');
 var Produto = require('./app/models/product');
 var Usuario = require('./app/models/user');
 
-/*Persistência Conexao com o banco (Cloud - MLAB)
+/*Persistência Conexao com o banco (Cloud - MLAB)*/
 mongoose.connect('mongodb://cassiounivem:univem1234@ds014368.mlab.com:14368/bancoapi')
-*/
-mongoose.connect('mongodb://localhost/bancoapinode');
+
+//mongoose.connect('mongodb://localhost/bancoapinode');
 
 //configurar a app para usar o body-parser pega o que quero
 app.use(bodyParser.urlencoded({extended:true}));
@@ -30,6 +30,7 @@ router.use(function(req,res,next){
 		redefinir o Header*/
 	// Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
+    res.setHeader('Access-Control-Allow-Origin', 'https://apinode-salty-springs-19764.herokuapp.com');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
